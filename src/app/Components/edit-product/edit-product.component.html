@@ -1,0 +1,27 @@
+<div class="container p-5">
+    <div class="my-3 text-center">
+        <h2>Edit Product/Service Table Data</h2>
+    </div>
+    <form class="row" #form="ngForm" (submit)="onUpdateForm()">
+        <div class="col-6 mx-auto">
+            <div class="mb-3">
+                <label for="" class="form-label">Id</label>
+                <input type="" class="form-control" id="" name="id" readonly disabled [(ngModel)]="product.id">
+            </div>
+            <div class="mb-3">
+                <label for="" class="form-label">Interested Product/Service Name</label>
+                <input type="" class="form-control" name="serviceName" id="" [(ngModel)]="product.serviceName">
+            </div>
+            <div class="mb-3">
+                <label for="" class="form-label">Quantity</label>
+                <input type="" class="form-control" name="quantity" id="" [(ngModel)]="product.quantity">
+            </div>
+            <div class="mb-3">
+                <label for="" class="form-label">Unit</label>
+                <input type="" class="form-control" name="unit" id="" [(ngModel)]="product.unit">
+            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+        </div>
+
+    </form>
+</div>

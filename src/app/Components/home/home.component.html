@@ -1,0 +1,157 @@
+<div class="">
+    <div class="d-flex justify-content-between align-items-center border border-2 rounded-bottom px-2 bg-info">
+        <div>
+            <h6>Meeting Minutes</h6>
+        </div>
+        <div>
+            <p>#</p>
+        </div>
+    </div>
+
+    <form #form="ngForm" (ngSubmit)="onSubmit()">
+        <div class="border border-2 rounded p-3">
+            <div class="py-3 d-flex">
+                <div class="me-4">
+                    <input type="radio" id="corporateRadio" name="customerType" value="corporate"
+                        (change)="onCustomerTypeChange('corporate')" />
+                    Corporate
+                </div>
+                <div class="">
+                    <input type="radio" id="individualRadio" name="customerType" value="individual"
+                        (change)="onCustomerTypeChange('individual')" />
+                    Individual
+                </div>
+            </div>
+
+            <hr />
+
+            <div class="row d-flex flex-sm-column flex-lg-row justify-content-between g-5">
+                <div class="col-6">
+                    <div class="row my-2">
+                        <label class="col-4" for="">Customer Name<span class="text-danger">*</span></label>
+                        <select class="border border-2 p-2 col-8" name="customerName"
+                            [(ngModel)]="customerDetail.customerName" id="">
+                            <option value="" disabled [selected]="!customerDetail.customerName">
+                                Select Customer Names
+                            </option>
+                            <option *ngFor="let customer of loadedNames" [value]="customer.name">
+                                {{ customer.name }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="row my-2">
+                        <label class="col-4" for="">Date</label>
+                        <input class="border border-2 p-2 col-8" type="datetime-local" [(ngModel)]="customerDetail.dateandTime" name="date" value="" />
+                    </div>
+                    <div class="row my-2">
+                        <label class="col-4" for="">Meeting Place<span class="text-danger">*</span></label>
+                        <input class="border border-2 p-2 col-8" type="text" [(ngModel)]="customerDetail.meetingPlace" name="meetingPlace" value=""
+                            placeholder="meeting place" />
+                    </div>
+                    <div class="row my-2">
+                        <label class="col-4" for="">Attends From Client Side<span class="text-danger">*</span></label>
+                        <textarea class="border border-2 p-2 col-8" name="clientSide" [(ngModel)]="customerDetail.clientSide" id="" cols="10" rows="1"
+                            placeholder="Present client side"></textarea>
+                    </div>
+                    <div class="row my-2">
+                        <label class="col-4" for="">Attends From Host Side<span class="text-danger">*</span></label>
+                        <textarea class="border border-2 p-2 col-8" name="hostSide" [(ngModel)]="customerDetail.HostSide" id="" cols="10" rows="1"
+                            placeholder="Present self side"></textarea>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="row my-2">
+                        <label class="col-4" for="">Meeting Agenda<span class="text-danger">*</span></label>
+                        <textarea class="border border-2 p-2 col-8" [(ngModel)]="meetingDetail.meetingAgenda" name="agenda" id="" cols="10" rows="1"
+                            placeholder="Meeting agenda"></textarea>
+                    </div>
+                    <div class="row my-2">
+                        <label class="col-4" for="">Meeting Discussion<span class="text-danger">*</span></label>
+                        <textarea class="border border-2 p-2 col-8" [(ngModel)]="meetingDetail.meetingDiscussion" name="discussion" id="" cols="10" rows="1"
+                            placeholder="Meeting discussion"></textarea>
+                    </div>
+                    <div class="row my-2">
+                        <label class="col-4" for="">Meeting Decision<span class="text-danger">*</span></label>
+                        <textarea class="border border-2 p-2 col-8" [(ngModel)]="meetingDetail.meetingDecision" name="decision" id="" cols="10" rows="1"
+                            placeholder="Meeting decision"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="border border-2 rounded px-3 my-3 py-3">
+            <div class="row">
+                <div class="col-8">
+                    <div class="my-2 row">
+                        <label class="col-4" for="">Interested Product/Service</label>
+                        <select class="border border-2 p-2 col-8" name="serviceName" id=""
+                            [(ngModel)]="selectedDropdownItem" (change)="onChangeDropDownList()">
+                            <option value="" disabled [selected]="!selectedDropdownItem">
+                                Select Product/Service Interested
+                            </option>
+                            <option *ngFor="let products of loadedProducts" [value]="products.serviceName">
+                                {{ products.serviceName }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="my-2 row">
+                        <div class="col-8 row">
+                            <label class="col-6" for="">Quantity</label>
+                            <input class="border border-2 p-2 col-6" type="number" name="selectQuantity"
+                                [(ngModel)]="selectedQuantity" />
+                        </div>
+                        <div class="col-4 row">
+                            <label class="col-6" for="">Unit</label>
+                            <input class="border border-2 p-2 col-6" name="unit" type="text" [(ngModel)]="selectedUnit"
+                                disabled readonly />
+                        </div>
+                    </div>
+                    <button class="btn btn-sm btn-secondary" type="button" (click)="onAddProductService()">
+                        +Add
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="border border-2 rounded px-3 my-3 py-3">
+            <div class="mb-5">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">SL#</th>
+                            <th scope="col">Interested product/Service Name</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Unit</th>
+                            <th scope="col">Edit</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let product of loadedProducts">
+                            <th scope="row">{{ product.id }}</th>
+                            <td>{{ product.serviceName }}</td>
+                            <td>{{ product.quantity }}</td>
+                            <td>{{ product.unit }}</td>
+                            <td>
+                                <a class="btn btn-sm btn-warning" [routerLink]="['edit-product', product.id]">Edit</a>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-danger" (click)="onDelete(product.id)">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="d-flex">
+                <button class="btn btn-sm btn-secondary me-2" type="submit">
+                    Save
+                </button>
+                <button class="btn btn-sm btn-secondary" type="button" (click)="onRefresh()">Refresh</button>
+            </div>
+        </div>
+    </form>
+</div>
